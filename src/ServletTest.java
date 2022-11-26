@@ -12,19 +12,14 @@ public class ServletTest implements Servlet{
 	
 	public void service(ServletRequest req, ServletResponse resp) 
 	throws ServletException,IOException{
-		//如何将一个信息直接输出到浏览器上面？
-		//需要使用ServletResponse接口
-		//Response表示响应：从服务器向浏览器发送数据叫做响应。
 		
+		//向网页发送html代码
+		//设置响应的内容类型是普通文本或者html代码,该句必须写在流对象创建之前
+		resp.setContentType("text/html");
 		
 		PrintWriter out = resp.getWriter();
 		
-		out.print("Print Message To Browser");
-		
-		//这是一个输出流，负责输出字符串到浏览器
-		//这个输出流不需要我们刷新，也不需要我们关闭，这些由Tomcat来维护
-		//out.flush();
-		//out.close();
+		out.print("<a href = 'http://baidu.com'>This is a super link</a>");
 	} 
 	
 	public void destroy(){
