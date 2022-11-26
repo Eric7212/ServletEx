@@ -3,6 +3,10 @@ package com.eric.servlet;
 import javax.servlet.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import com.eric.jdbc.JDBCUtil;
+import com.eric.test.T_ACT;
+import java.util.*;
+import java.lang.*;
 
 public class ServletTest implements Servlet{
 	//实现5个方法
@@ -13,13 +17,20 @@ public class ServletTest implements Servlet{
 	public void service(ServletRequest req, ServletResponse resp) 
 	throws ServletException,IOException{
 		
-		//向网页发送html代码
-		//设置响应的内容类型是普通文本或者html代码,该句必须写在流对象创建之前
 		resp.setContentType("text/html");
 		
 		PrintWriter out = resp.getWriter();
 		
-		out.print("<a href = 'http://baidu.com'>This is a super link</a>");
+		//测试数据库连接
+		String sql = "select * from t_act";
+		
+		ArrayList<T_ACT> list = JDBCUtil.executeDQLWithValue(T_ACT.class,sql);
+        Iterator<T_ACT> iterator = list.iterator();
+        while (iterator.hasNext()){
+            T_ACT t = iterator.next();
+            out.print("actno:" + t.actno + "," + "balance:" +  t.balance + "<br>");
+        }
+		
 	} 
 	
 	public void destroy(){
